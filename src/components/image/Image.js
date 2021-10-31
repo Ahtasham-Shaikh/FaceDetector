@@ -1,11 +1,22 @@
 import React from "react";
+import './image.css'
 
-const Image = (props) => {
+const Image = ({url, box}) => {
     return (
-        <div className="mt3">
-            <img src={props.url} 
-            alt="" height= "auto" width="500px" />
+        <div >
+            <div className="absolute mt3">
+                
+                <img id="inputimage" src={url} 
+                alt="" height= "auto" width="500px" />
+
+                <div className='bounding-box'
+                    style={{top: box.topRow, left: box.leftCol, 
+                    right: box.rightCol, bottom: box.bottomRow}}>
+                </div>
+
+            </div>
         </div>
+        
     )
 }
 
