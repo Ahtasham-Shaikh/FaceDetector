@@ -27,6 +27,7 @@ class App extends Component{
     super();
     this.state = {
       input: "",
+      imageUrl: "",
       box: {}
     }
 
@@ -50,49 +51,61 @@ class App extends Component{
     this.setState({
       box: box
     })
-    console.log(this.state.box)
   }
 
   onInputChange = (event) => {
     this.setState({
       input: event.target.value,
     })
+
+    // console.log(this.state.input)
   }
 
   onSubmit = () => {
-
-    const obj = {
-      user_app_id: {
-            user_id: "o8ps2yhlqctx",
-            app_id : "0cbeb7ffe2e544fd893612065c346c65"
-        },
-      inputs: [
-        {
-          data : {
-            image: {
-              url : this.state.input
+    this.setState({
+      imageUrl: this.state.input
+    },
+    () => {
+      const obj = {
+        user_app_id: {
+              user_id: "o8ps2yhlqctx",
+              app_id : "0cbeb7ffe2e544fd893612065c346c65"
+          },
+        inputs: [
+          {
+            data : {
+              image: {
+                url : this.state.imageUrl
+              }
             }
           }
-        }
-      ]
+        ]
+      }
+  
+      const raw = JSON.stringify(obj);
+  
+      const requestOptions = {
+        method: 'POST',
+        headers: {
+          'Accept': 'application/json',
+          'Authorization': 'Key 90057f8a4c684fecba97e7ec583b0807'
+        },
+        body: raw
+      };
+      
+      fetch("https://api.clarifai.com/v2/models/e15d0f873e66047e579f90cf82c9882z/outputs", requestOptions)
+        .then(response => response.text())
+        .then(result => this.calculateFaceLocation(JSON.parse(result, null, 2)))
+        // .then(result => console.log(JSON.parse(result, null, 2).outputs[0].data))
+        .then(result2 => this.displayFaceBox(result2))
+        .catch(error => console.log('error', error));
     }
-
-    const raw = JSON.stringify(obj);
-
-    const requestOptions = {
-      method: 'POST',
-      headers: {
-        'Accept': 'application/json',
-        'Authorization': 'Key 90057f8a4c684fecba97e7ec583b0807'
-      },
-      body: raw
-    };
+    )
     
-    fetch("https://api.clarifai.com/v2/models/e15d0f873e66047e579f90cf82c9882z/outputs", requestOptions)
-      .then(response => response.text())
-      .then(result => this.calculateFaceLocation(JSON.parse(result, null, 2)))
-      .then(result2 => this.displayFaceBox(result2))
-      .catch(error => console.log('error', error));
+    // console.log('onclicked',this.state.input)
+    // console.log("onclicked", this.state.imageUrl)
+
+    
 
   }
 
@@ -110,7 +123,7 @@ class App extends Component{
           onInputChange={this.onInputChange} 
           onSubmit={this.onSubmit}
         />
-        <Image box={this.state.box} url={this.state.input} />
+        <Image box={this.state.box} url={this.state.imageUrl} />
       </div>
     );
   }
