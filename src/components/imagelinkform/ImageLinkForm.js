@@ -9,7 +9,7 @@ const ImageLinkForm = ({onInputChange, onSubmit}) => {
                 {"This mystical brain will detect faces in your pictures. Give it a try!"}
             </p>
             <div>
-                <div className="pa4 br5 shadow-5">
+                <div className="pa4 br5 shadow-5" id="input">
                     <input onChange={onInputChange} 
                     type="text" className="f4 pa2 w-40 center" 
                     placeholder="Enter Image Url"/>

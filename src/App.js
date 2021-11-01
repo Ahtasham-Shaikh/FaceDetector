@@ -6,6 +6,8 @@ import Logo from "./components/logo/Logo";
 import ImageLinkForm from './components/imagelinkform/ImageLinkForm';
 import Rank from './components/rank/Rank';
 import Image from './components/image/Image';
+import SignIn from './components/signin/SignIn';
+import Register from './components/register/Register'
 
 import Particles from 'react-particles-js';
 
@@ -28,7 +30,8 @@ class App extends Component{
     this.state = {
       input: "",
       imageUrl: "",
-      box: {}
+      box: {},
+      route: 'signin'
     }
 
   }
@@ -58,7 +61,12 @@ class App extends Component{
       input: event.target.value,
     })
 
-    // console.log(this.state.input)
+  }
+
+  onRouteChange = (route) => {
+    this.setState({
+      route: route
+    })
   }
 
   onSubmit = () => {
@@ -100,12 +108,7 @@ class App extends Component{
         .then(result2 => this.displayFaceBox(result2))
         .catch(error => console.log('error', error));
     }
-    )
-    
-    // console.log('onclicked',this.state.input)
-    // console.log("onclicked", this.state.imageUrl)
-
-    
+    )  
 
   }
 
@@ -116,20 +119,28 @@ class App extends Component{
         className="particles" 
         params={particlesParams}
         />
-        <Navigation/>
-        <Logo/>
-        <Rank/>
-        <ImageLinkForm
-          onInputChange={this.onInputChange} 
-          onSubmit={this.onSubmit}
-        />
-        <Image box={this.state.box} url={this.state.imageUrl} />
+        <Navigation onRouteChange={this.onRouteChange}/>
+        {
+          this.state.route === "signin" ? 
+          <SignIn onRouteChange={this.onRouteChange}/>
+          :
+          this.state.route === "register" ? 
+          <Register onRouteChange={this.onRouteChange}/>
+          : 
+          <div>
+          <Logo/>
+          <Rank/>
+          <ImageLinkForm
+            onInputChange={this.onInputChange} 
+            onSubmit={this.onSubmit}
+          />
+          <Image box={this.state.box} url={this.state.imageUrl} />
+          </div>
+        }
       </div>
     );
   }
 
 }
-
-  
 
 export default App;
