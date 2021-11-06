@@ -30,30 +30,38 @@ class App extends Component{
     this.state = {
       input: "",
       imageUrl: "",
-      box: {},
+      box: [],
       route: 'signin'
     }
 
   }
 
   calculateFaceLocation = (data) => {
-    const boundingBox = data.outputs[0].data.regions[0].region_info.bounding_box
+    const faces = data.outputs[0].data.regions
+    
     const image = document.getElementById("inputimage")
     const width = image.width
     const height = image.height
-    return {
-      topRow: Number(height * boundingBox.top_row),
-      leftCol: Number(width * boundingBox.left_col),
-      rightCol: Number(width - (width * boundingBox.right_col)),
-      bottomRow: Number(height - (height * boundingBox.bottom_row)) 
-    }
 
+    const boxes = faces.map(face => {
+    const boundingBox = face.region_info.bounding_box
+
+    const topRow = Number(height * boundingBox.top_row)
+    const leftCol = Number(width * boundingBox.left_col)
+    const rightCol = Number(width - (width * boundingBox.right_col))
+    const bottomRow = Number(height - (height * boundingBox.bottom_row)) 
+  
+    return [topRow, rightCol, bottomRow, leftCol]
+    })
+
+    return boxes;
   }
 
-  displayFaceBox = (box) => {
+  displayFaceBox = (boxes) => {
     this.setState({
-      box: box
+      box: boxes
     })
+
   }
 
   onInputChange = (event) => {
@@ -104,7 +112,7 @@ class App extends Component{
       fetch("https://api.clarifai.com/v2/models/e15d0f873e66047e579f90cf82c9882z/outputs", requestOptions)
         .then(response => response.text())
         .then(result => this.calculateFaceLocation(JSON.parse(result, null, 2)))
-        // .then(result => console.log(JSON.parse(result, null, 2).outputs[0].data))
+        // .then(result => console.log(JSON.parse(result, null, 2).outputs[0].data.regions))
         .then(result2 => this.displayFaceBox(result2))
         .catch(error => console.log('error', error));
     }

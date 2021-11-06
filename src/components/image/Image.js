@@ -1,19 +1,23 @@
 import React from "react";
-import './image.css'
 
-const Image = ({url, box}) => {
+import Child from '../child/Child.js'
+
+const Image = ({url, box}) => { 
     return (
         <div >
             <div className="absolute mt3">
-                
                 <img id="inputimage" src={url} 
                 alt="" height= "auto" width="500px" />
 
-                <div className='bounding-box'
-                    style={{top: box.topRow, left: box.leftCol, 
-                    right: box.rightCol, bottom: box.bottomRow}}>
-                </div>
-
+                {
+                    box.map((element, i) => {
+                        return (
+                            <Child style={{ top: element[0], right: element[1],
+                             bottom: element[2], left: element[3] }}/>
+                        )
+                    })
+                }
+                
             </div>
         </div>
         
