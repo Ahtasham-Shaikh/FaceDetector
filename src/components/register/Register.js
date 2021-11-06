@@ -9,19 +9,19 @@ const Register = ({onRouteChange}) => {
                         <legend class="f2 fw6 ph0 mh0">Register</legend>
                         <div class="mt3">
                             <label class="db mb1 fw6 lh-copy f6" for="name">Name</label>
-                            <input class="pa2 b--black input-reset ba bg-transparent hover-bg-black hover-white w-100" type="text" name="name"  id="name"/>
+                            <input class="pa2 b--black input-reset bg-transparent hover-bg-black hover-white w-100" type="text" name="name"  id="name"/>
                         </div>
                         <div class="mt3">
                             <label class="db mb1 fw6 lh-copy f6" for="email-address">Email</label>
-                            <input class="pa2 b--black input-reset ba bg-transparent hover-bg-black hover-white w-100" type="email" name="email-address"  id="email-address"/>
+                            <input class="pa2 b--black input-reset bg-transparent hover-bg-black hover-white w-100" type="email" name="email-address"  id="email-address"/>
                         </div>
                         <div class="mv3">
                             <label class="db mb1 fw6 lh-copy f6" for="password">Password</label>
-                            <input class="b pa2 b--black input-reset ba bg-transparent hover-bg-black hover-white w-100" type="password" name="password"  id="password"/>
+                            <input class="b pa2 b--black input-reset bg-transparent hover-bg-black hover-white w-100" type="password" name="password"  id="password"/>
                         </div>
                     </fieldset>
                     <div class="">
-                        <input class="b ph3 pv2 input-reset ba b--black bg-transparent grow pointer f6 dib" 
+                        <input class="b ph3 pv2 input-reset b--black bg-transparent grow pointer f6 dib" 
                         type="submit" value="Register"
                         onClick={()=>onRouteChange("home")}/>
                     </div>
